@@ -6,7 +6,7 @@
 import unittest
 from click.testing import CliRunner
 
-from pdf_hustle import pdf_hustle
+from pdf_hustle import booklet
 from pdf_hustle import cli
 
 
