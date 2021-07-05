@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = ['Click>=7.0', 'PyPDF2']
 
 test_requirements = [ ]
 
@@ -32,6 +32,8 @@ setup(
     entry_points={
         'console_scripts': [
             'pdf_hustle=pdf_hustle.cli:main',
+            'booklet = booklet:booklet',
+            'bookpages = booklet:pageListCLI',
         ],
     },
     install_requires=requirements,
