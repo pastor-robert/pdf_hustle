@@ -3,6 +3,7 @@ Use the PyPDF2 library to create a booklet.
 
 References:
     - https://pythonhosted.org/PyPDF2
+
 """
 
 import click
@@ -14,24 +15,19 @@ __copyright__ = "Rob Adams"
 __license__ = "MIT"
 
 
-@click.command()
-@click.argument('pagecount', default=8, type=int)
-def pageListCLI(pagecount):
-    print(list(pageList(pagecount)))
+def pageList(pageCount=8):
+    """Returns a sequence of page sets, one set per output page.
 
-def pageList(pageCount):
-    """page-ordering function
-
-    Args:
-      pageCount (int): integer
-
-    Returns:
-      a sequence of tupleles
-
-    Example:
 
     >>> list(pageList(8))
     [(7, 0), (1, 6), (5, 2), (3, 4)]
+
+    :param pageCount: the number of input pages, defaults to 8
+    :type pageCount: int
+
+    :return: An ordered list of output pages, each of which contains
+             multiple input pages
+    :rtype: list(tuple)
     """
 
     for i in range(pageCount//2):
@@ -44,17 +40,14 @@ def pageList(pageCount):
 def reformatStream(input_, output=None):
     """Convert PDF read stream to a booklet PDF
 
-    Args:
-      input_ (PdfFileReader): existing one page-per-sheet stream
-      output (PdfFileWriter): stream to be written to
+    :param input_: the input document
+    :type input_: PyPDF2.PdfFileReader
+    :param output: the output document. Will be created if ``None``. defaults to None
+    :type output: PyPDF2.PdfFileWriter
 
-    Returns:
-      PdfFileWriter: n-up booklet
+    :return: The output document.
+    :rtype: PyPDF2.PdfFileWriter
     """
-
-#input1 = PdfFileReader(open(sys.argv[1], "rb"))
-#output = PdfFileWriter()
-
     if output is None:
         output = PdfFileWriter()
 
@@ -74,3 +67,9 @@ def booklet(ifname, ofname):
         writer = reformatStream(ifstream)
     with open(ofname, "wb") as ofstream:
         writer.write(ofstream)
+
+@click.command()
+@click.argument('pagecount', default=8, type=int)
+def pageListCLI(pagecount):
+    print(list(pageList(pagecount)))
+
